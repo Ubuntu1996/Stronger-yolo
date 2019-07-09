@@ -64,7 +64,7 @@ def _darknet53_block(inputs, filters):
 
 
 @tf.contrib.framework.add_arg_scope
-def _fixed_padding(inputs, kernel_size, *args, mode='CONSTANT', **kwargs):
+def _fixed_padding(inputs, kernel_size, mode='CONSTANT', *args, **kwargs):
     """
     Pads the input along the spatial dimensions independently of input size.
 

@@ -1,12 +1,13 @@
 # coding: utf-8
 
+from __future__ import print_function
 import os
 import xml.etree.ElementTree as ET
 import config as cfg
 
 def convert_voc_annotation(data_path, data_type, anno_path, use_difficult_bbox=True):
     """
-    :param data_path: 数据集的路径，如'/home/xzh/doc/code/python_code/data/VOC/2012_trainval'
+    :param data_path: 数据集的路径
     :param data_type: 数据类型，如'trainval'
     :param anno_path: 标签存放的地址，如'../data/VOC2012_trainval_annotation.txt'
     :return: None
@@ -39,7 +40,7 @@ def convert_voc_annotation(data_path, data_type, anno_path, use_difficult_bbox=T
                 ymax = bbox.find('ymax').text.strip()
                 annotation += ' ' + ','.join([xmin, ymin, xmax, ymax, str(class_ind)])
             annotation += '\n'
-            print annotation
+            print(annotation)
             f.write(annotation)
     return len(image_inds)
 
@@ -54,7 +55,7 @@ if __name__ == '__main__':
     num1 = convert_voc_annotation(os.path.join(cfg.DATASET_PATH, '2012_trainval'), 'trainval', train_annotation_path, False)
     num2 = convert_voc_annotation(os.path.join(cfg.DATASET_PATH, '2007_trainval'), 'trainval', train_annotation_path, False)
     num3 = convert_voc_annotation(os.path.join(cfg.DATASET_PATH, '2007_test'), 'test', test_annotation_path, False)
-    print 'The number of image for train is:'.ljust(50), num1 + num2
-    print 'The number of image for test is:'.ljust(50), num3
+    print('The number of image for train is:'.ljust(50), num1 + num2)
+    print('The number of image for test is:'.ljust(50), num3)
 
 

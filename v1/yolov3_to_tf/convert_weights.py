@@ -18,7 +18,7 @@ tf.app.flags.DEFINE_string(
 tf.app.flags.DEFINE_bool(
     'tiny', False, 'Use tiny version of YOLOv3')
 tf.app.flags.DEFINE_string(
-    'ckpt_file', './saved_model/model.ckpt', 'Chceckpoint file')
+    'ckpt_file', './saved_model/model.ckpt', 'Checkpoint file')
 
 
 def main(argv=None):
