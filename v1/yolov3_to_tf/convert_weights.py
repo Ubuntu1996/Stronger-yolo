@@ -7,6 +7,9 @@ import yolo_v3_tiny
 
 from utils import load_coco_names, load_weights
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
 FLAGS = tf.app.flags.FLAGS
 
 tf.app.flags.DEFINE_string(
@@ -26,7 +29,6 @@ def main(argv=None):
         model = yolo_v3_tiny.yolo_v3_tiny
     else:
         model = yolo_v3.yolo_v3
-
     classes = load_coco_names(FLAGS.class_names)
 
     # placeholder for detector inputs
