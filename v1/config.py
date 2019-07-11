@@ -28,13 +28,13 @@ SCORE_THRESHOLD = 0.01    # The threshold of the probability of the classes
 IOU_THRESHOLD = 0.45     # The threshold of the IOU when implement NMS
 
 # compute environment
-GPU = '1'
+GPU = '0'
 
 # name and path
 DATASET_PATH = '/data/pjq/projects/digits/data/VOC'
 ANNOT_DIR_PATH = '/data/pjq/projects/digits/data'
 WEIGHTS_DIR = 'weights'
-WEIGHTS_FILE = 'voc_fine_tune_initial.ckpt'
+WEIGHTS_FILE = 'yolo.ckpt-29-6.3029'
 LOG_DIR = 'log'
 CLASSES = ['aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus',
            'car', 'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse',

@@ -293,7 +293,7 @@ if __name__ == '__main__':
     cfg.GPU = args.gpu
 
     os.environ['CUDA_VISIBLE_DEVICES'] = cfg.GPU
-    cfg.WEIGHTS_FILE = weights_file
+    weights_file = cfg.WEIGHTS_FILE
     weights_path = os.path.join(cfg.WEIGHTS_DIR, cfg.WEIGHTS_FILE) + '.index'
     if not os.path.exists(weights_path):
         raise RuntimeError(str('You must enter a valid name of weights in directory: %s' % cfg.WEIGHTS_DIR))
@@ -304,7 +304,7 @@ if __name__ == '__main__':
     elif test_2012:
         T.voc_2012_test()
     else:
-        images = ['./data/' + image for image in os.listdir('./data/test_data')
+        images = ['./data/test_data/' + image for image in os.listdir('./data/test_data')
                   if (image[-3:] == 'jpg') and (image[0] != '.')]
         image = cv2.imread(np.random.choice(images))
         image = T.detect_image(image)
