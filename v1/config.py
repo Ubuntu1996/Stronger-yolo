@@ -24,15 +24,15 @@ MAX_BBOX_PER_SCALE = 150
 # test
 MULTI_TEST = False
 FLIP_TEST = False
-SCORE_THRESHOLD = 0.01    # The threshold of the probability of the classes
+SCORE_THRESHOLD = 0.5    # The threshold of the probability of the classes
 IOU_THRESHOLD = 0.45     # The threshold of the IOU when implement NMS
 
 # compute environment
 GPU = '0'
 
 # name and path
-DATASET_PATH = '/data/pjq/projects/digits/data/VOC'
-ANNOT_DIR_PATH = '/data/pjq/projects/digits/data'
+DATASET_PATH = '/data/pan/projects/digits/data/VOC'
+ANNOT_DIR_PATH = '/data/pan/projects/digits/data'
 WEIGHTS_DIR = 'weights'
 WEIGHTS_FILE = 'yolo.ckpt-29-6.3029'
 LOG_DIR = 'log'

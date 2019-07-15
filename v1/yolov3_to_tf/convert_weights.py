@@ -8,7 +8,7 @@ import yolo_v3_tiny
 from utils import load_coco_names, load_weights
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 FLAGS = tf.app.flags.FLAGS
 

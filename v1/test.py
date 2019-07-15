@@ -309,5 +309,3 @@ if __name__ == '__main__':
         image = cv2.imread(np.random.choice(images))
         image = T.detect_image(image)
         cv2.imwrite('detect_result.jpg', image)
-
-
