@@ -3,7 +3,7 @@ v1/yolov3_to_tf/yolov3.weights
 .idea/*
 *.pyc
 */__pycache__/*
-v1/weights/yolo.ckpt-29-6.3029.*
+v1/weights/*
 v1/log/test/*
 v1/log/train/*
 v1/detect_result.jpg

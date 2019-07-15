@@ -32,12 +32,16 @@ GPU = '0'
 
 # name and path
 DATASET_PATH = '/data/pan/projects/digits/data/VOC'
-ANNOT_DIR_PATH = '/data/pan/projects/digits/data'
+ANNOT_DIR_PATH = '/data/pan/projects/digits/iron_data'
 WEIGHTS_DIR = 'weights'
-WEIGHTS_FILE = 'yolo.ckpt-29-6.3029'
+WEIGHTS_FILE = 'voc_fine_tune_initial.ckpt'
+# WEIGHTS_FILE = 'yolo.ckpt-29-6.3029'
 LOG_DIR = 'log'
+'''
 CLASSES = ['aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus',
            'car', 'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse',
            'motorbike', 'person', 'pottedplant', 'sheep', 'sofa',
            'train', 'tvmonitor']
+'''
+CLASSES = ['stamp']
 
