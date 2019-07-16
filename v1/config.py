@@ -28,7 +28,7 @@ SCORE_THRESHOLD = 0.5    # The threshold of the probability of the classes
 IOU_THRESHOLD = 0.45     # The threshold of the IOU when implement NMS
 
 # compute environment
-GPU = '0'
+GPU = '1'
 
 # name and path
 DATASET_PATH = '/data/pan/projects/digits/data/VOC'

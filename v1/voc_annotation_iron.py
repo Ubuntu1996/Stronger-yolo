@@ -39,6 +39,12 @@ if __name__ == '__main__':
     ANNOT_DIR_PATH = "/data/pan/projects/digits/iron_data"
     DATASET_PATH = "/data/pan/projects/digits/iron_data"
     train_annotation_path = os.path.join(ANNOT_DIR_PATH, 'train_annotation.txt')
+    test_annotation_path = os.path.join(ANNOT_DIR_PATH, 'test_annotation.txt')
     if os.path.exists(train_annotation_path):
         os.remove(train_annotation_path)
+    if os.path.exists(test_annotation_path):
+        os.remove(test_annotation_path)
     num1 = convert_voc_annotation(DATASET_PATH, 'trainval', train_annotation_path, False)
+    num2 = convert_voc_annotation(DATASET_PATH, 'test', test_annotation_path, False)
+    print(num1)
+    print(num2)
