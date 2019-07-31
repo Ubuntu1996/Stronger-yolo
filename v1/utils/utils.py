@@ -236,8 +236,10 @@ def img_preprocess2(image, bboxes, target_shape, correct_box=True):
     """
     h_target, w_target = target_shape
     h_org, w_org, _ = image.shape
+    # w_org, h_org, _ = image.shape
 
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB).astype(np.float32)
+    # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB).astype(np.float32)
+    image = image.astype(np.float32)
 
     resize_ratio = min(1.0 * w_target / w_org, 1.0 * h_target / h_org)
     resize_w = int(resize_ratio * w_org)
@@ -247,10 +249,17 @@ def img_preprocess2(image, bboxes, target_shape, correct_box=True):
     image_paded = np.full((h_target, w_target, 3), 128.0)
     dw = int((w_target - resize_w) / 2)
     dh = int((h_target - resize_h) / 2)
-    image_paded[dh:resize_h+dh, dw:resize_w+dw,:] = image_resized
+    image_paded[dh:resize_h+dh, dw:resize_w+dw, :] = image_resized
     image = image_paded / 255.0
 
     if correct_box:
+        # 需注意的是图像的坐标轴方向为
+        #  - - - - > x
+        # |
+        # |
+        # ↓
+        # y
+        # 在图像中标注坐标时通常用(y,x)
         bboxes[:, [0, 2]] = bboxes[:, [0, 2]] * resize_ratio + dw
         bboxes[:, [1, 3]] = bboxes[:, [1, 3]] * resize_ratio + dh
         return image, bboxes

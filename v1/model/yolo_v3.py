@@ -69,7 +69,8 @@ class YOLO_V3(object):
                                            filter_num1=128, filter_num2=256,
                                            training=self.__training)
             conv = cs_layer.residual_block(name='residual9', input_data=conv, input_channel=256,
-                                           filter_num1=128, filter_num2=256, training=self.__training)
+                                           filter_num1=128, filter_num2=256,
+                                           training=self.__training)
             darknet_route1 = cs_layer.residual_block(name='residual10', input_data=conv, input_channel=256,
                                            filter_num1=128, filter_num2=256, training=self.__training)
             conv = cs_layer.convolutional(name='conv26', input_data=darknet_route1, filters_shape=(3, 3, 256, 512),
@@ -90,7 +91,7 @@ class YOLO_V3(object):
                                            filter_num1=256, filter_num2=512, training=self.__training)
             conv = cs_layer.residual_block(name='residual17', input_data=conv, input_channel=512,
                                            filter_num1=256, filter_num2=512, training=self.__training)
-            darknet_route2 = cs_layer.residual_block(name='residual18', input_data=conv, input_channel= 512,
+            darknet_route2 = cs_layer.residual_block(name='residual18', input_data=conv, input_channel=512,
                                            filter_num1=256, filter_num2=512, training=self.__training)
             conv = cs_layer.convolutional(name='conv43', input_data=darknet_route2, filters_shape=(3, 3, 512, 1024),
                                           training=self.__training, downsample=True)

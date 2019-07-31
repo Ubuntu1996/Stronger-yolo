@@ -153,6 +153,7 @@ class YoloTrain(object):
                 summary_val = self.__sess.run(self.__summary_op)
                 self.__summary_writer.add_summary(summary_val, global_step_val)
                 logging.info('Period:\t%d\tstep:\t%d\ttrain_loss:\t%.4f' % (period, global_step_val, train_loss))
+                print 'Period:\t%d\tstep:\t%d\ttrain_loss:\t%.4f' % (period, global_step_val, train_loss)
 
             total_test_loss = 0.0
             for batch_image, batch_label_sbbox, batch_label_mbbox, batch_label_lbbox, \
@@ -176,9 +177,11 @@ class YoloTrain(object):
             test_loss = total_test_loss / len(self.__test_data)
 
             logging.info('Period:\t%d\ttest_loss:\t%.4f' % (period, test_loss))
+            print 'Period:\t%d\ttest_loss:\t%.4f' % (period, test_loss)
             saved_model_name = os.path.join(self.__weights_dir, 'yolo.ckpt-%d-%.4f' % (period, test_loss))
             self.__save.save(self.__sess, saved_model_name)
             logging.info('Saved model:\t%s' % saved_model_name)
+            print 'Saved model:\t%s' % saved_model_name
         self.__summary_writer.close()
 
 
@@ -188,7 +191,7 @@ if __name__ == '__main__':
     if not os.path.exists(os.path.join(cfg.LOG_DIR, 'test')):
         os.mkdir(os.path.join(cfg.LOG_DIR, 'test'))
     log_time = time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))
-    logging.basicConfig(filename='log/train/' + log_time + '.log', format='%(filename)s %(asctime)s\t%(message)s',
+    logging.basicConfig(filename='./log/train/' + log_time + '.log', format='%(filename)s %(asctime)s\t%(message)s',
                         level=logging.DEBUG, datefmt='%Y-%m-%d %I:%M:%S', filemode='w')
 
     os.environ['CUDA_VISIBLE_DEVICES'] = cfg.GPU

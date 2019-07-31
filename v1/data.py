@@ -13,7 +13,7 @@ from utils import data_aug
 import random
 import tensorflow as tf
 import logging
-
+from PIL import Image
 
 class Data(object):
     def __init__(self, dataset_type, split_ratio=1.0):
@@ -38,7 +38,7 @@ class Data(object):
         self.__annotations = annotations[: int(split_ratio * num_annotations)]
         self.__num_samples = len(self.__annotations)
         logging.info(('The number of image for %s is:' % dataset_type).ljust(50) + str(self.__num_samples))
-        self.__num_batchs = np.ceil(self.__num_samples / self.__batch_size)
+        self.__num_batchs = np.ceil(self.__num_samples / self.__batch_size) # This is exact division in python2
         self.__batch_count = 0
 
     def batch_size_change(self, batch_size_new):
@@ -80,7 +80,9 @@ class Data(object):
         with tf.device('/cpu:0'):
             if (self.__batch_count % 10) == 0:
                 self.__train_input_size = random.choice(self.__train_input_sizes)
+                # self.__train_input_size = 576
                 self.__train_output_sizes = self.__train_input_size / self.__strides
+
 
             batch_image = np.zeros((self.__batch_size, self.__train_input_size, self.__train_input_size, 3))
             batch_label_sbbox = np.zeros((self.__batch_size, self.__train_output_sizes[0], self.__train_output_sizes[0],
@@ -99,8 +101,9 @@ class Data(object):
                     if index >= self.__num_samples:
                         index -= self.__num_samples
                     annotation = self.__annotations[index]
+                    # annotation = "/data/pan/projects/digits/iron_data/images/tuyouziranguang1-zheng.jpg 2323,1178,2984,1423,0"
                     image, bboxes = self.__parse_annotation(annotation)
-                    label_sbbox, label_mbbox, label_lbbox, sbboxes, mbboxes, lbboxes = self.__create_label(bboxes)
+                    label_sbbox, label_mbbox, label_lbbox, sbboxes, mbboxes, lbboxes = self.__create_label(annotation, bboxes)
 
                     batch_image[num, :, :, :] = image
                     batch_label_sbbox[num, :, :, :, :] = label_sbbox
@@ -130,7 +133,8 @@ class Data(object):
         """
         line = annotation.split()
         image_path = line[0]
-        image = np.array(cv2.imread(image_path))
+        # image = np.array(cv2.imread(image_path))
+        image = np.array(Image.open(image_path))
         bboxes = np.array([map(int, box.split(',')) for box in line[1:]])
 
         image, bboxes = data_aug.random_horizontal_flip(np.copy(image), np.copy(bboxes))
@@ -140,7 +144,7 @@ class Data(object):
                                               (self.__train_input_size, self.__train_input_size), True)
         return image, bboxes
 
-    def __create_label(self, bboxes):
+    def __create_label(self, anno, bboxes):
         """
         (1.25, 1.625), (2.0, 3.75), (4.125, 2.875) 这三个anchor用于small_detector预测小物体
         [(1.875, 3.8125), (3.875, 2.8125), (3.6875, 7.4375) 这三个anchor用于medium_detector预测中物体
@@ -206,6 +210,13 @@ class Data(object):
                     # (4)将iou大于0.3的anchor对应位置的数据标识为(x, y, w, h, 1, classes)
                     # 首先需要将该Anchor对应的标签清零，因为某个Anchor可能与多个bbox的IOU大于0.3
                     # 如果不清零，那么该Anchor可能会被标记为多类
+                    # DEBUG
+                    if yind >= label[i].shape[0] or xind >= label[i].shape[1]:
+                        print "exist"
+                        print anno
+                        print yind
+                        print xind
+                        print label[i].shape
                     label[i][yind, xind, iou_mask, :] = 0
                     label[i][yind, xind, iou_mask, 0:4] = bbox_xywh
                     label[i][yind, xind, iou_mask, 4:5] = 1.0
@@ -227,6 +238,10 @@ class Data(object):
                 # 首先需要将该Anchor对应的标签清零，因为某个Anchor可能与多个bbox有最大IOU，
                 # 当输入图片尺寸为416时，与多个bbox有最大IOU的Anchor总共有248个
                 # 如果不清零，那么该Anchor可能会被标记为多类
+                # DEBUG
+                if yind > label[i].shape[0] or xind > label[i].shape[1]:
+                    print "no exist"
+                    print anno
                 label[best_detect][yind, xind, best_anchor, :] = 0
                 label[best_detect][yind, xind, best_anchor, 0:4] = bbox_xywh
                 label[best_detect][yind, xind, best_anchor, 4:5] = 1.0
