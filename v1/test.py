@@ -16,6 +16,7 @@ import random
 import colorsys
 import argparse
 from utils import utils
+from PIL import Image
 
 
 class YoloTest(object):
@@ -304,8 +305,12 @@ if __name__ == '__main__':
     elif test_2012:
         T.voc_2012_test()
     else:
-        images = ['./data/test_data/' + image for image in os.listdir('./data/test_data')
+        # images = ['./data/test_data/' + image for image in os.listdir('./data/test_data/')
+        #          if (image[-3:] == 'jpg') and (image[0] != '.')]
+        images = ['/data/pan/projects/digits/iron_data/images/' + image for image in os.listdir('/data/pan/projects/digits/iron_data/images')
                   if (image[-3:] == 'jpg') and (image[0] != '.')]
-        image = cv2.imread(np.random.choice(images))
+        # image = cv2.imread(np.random.choice(images))
+        image = np.array(Image.open(np.random.choice(images)))
+        # image = np.array(Image.open('./data/test_data/001235.jpg'))
         image = T.detect_image(image)
         cv2.imwrite('detect_result.jpg', image)

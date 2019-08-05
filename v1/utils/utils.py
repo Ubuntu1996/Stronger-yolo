@@ -11,7 +11,8 @@ def sigmoid(arr):
     :param arr: 任意shape的数组
     :return: sigmoid后的数组
     """
-    arr = np.array(arr, dtype=np.float128)
+    arr = np.array(arr, dtype=np.float32)
+    # arr = np.array(arr, dtype=np.float128)
     return 1.0 / (1.0 + np.exp(-1.0 * arr))
 
 
@@ -20,7 +21,8 @@ def softmax(arr):
     :param arr: arr最后一维必须是logic维
     :return: softmax后的arr
     """
-    arr = np.array(arr, dtype=np.float128)
+    arr = np.array(arr, dtype=np.float32)
+    # arr = np.array(arr, dtype=np.float128)
     arr_exp = np.exp(arr)
     return arr_exp / np.expand_dims(np.sum(arr_exp, axis=-1), axis=-1)
 
@@ -236,9 +238,9 @@ def img_preprocess2(image, bboxes, target_shape, correct_box=True):
     """
     h_target, w_target = target_shape
     h_org, w_org, _ = image.shape
-    # w_org, h_org, _ = image.shape
 
     # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB).astype(np.float32)
+    # [pjq] when PIL used to load image
     image = image.astype(np.float32)
 
     resize_ratio = min(1.0 * w_target / w_org, 1.0 * h_target / h_org)
@@ -253,14 +255,17 @@ def img_preprocess2(image, bboxes, target_shape, correct_box=True):
     image = image_paded / 255.0
 
     if correct_box:
-        # 需注意的是图像的坐标轴方向为
-        #  - - - - > x
-        # |
-        # |
-        # ↓
-        # y
-        # 在图像中标注坐标时通常用(y,x)
         bboxes[:, [0, 2]] = bboxes[:, [0, 2]] * resize_ratio + dw
         bboxes[:, [1, 3]] = bboxes[:, [1, 3]] * resize_ratio + dh
         return image, bboxes
     return image
+
+def draw_bbox(image, bboxes):
+    # when PIL used to load image
+    # image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    for i, bbox in enumerate(bboxes):
+        coor = bbox[:4]
+        cv2.rectangle(image, (coor[0], coor[1]), (coor[2], coor[3]), (0, 255, 0), 2)
+    cv2.namedWindow('image', cv2.WINDOW_NORMAL)
+    cv2.imshow('image', image)
+    cv2.waitKey()

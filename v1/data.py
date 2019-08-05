@@ -15,6 +15,7 @@ import tensorflow as tf
 import logging
 from PIL import Image
 
+
 class Data(object):
     def __init__(self, dataset_type, split_ratio=1.0):
         """
@@ -137,6 +138,7 @@ class Data(object):
         image = np.array(Image.open(image_path))
         bboxes = np.array([map(int, box.split(',')) for box in line[1:]])
 
+        # utils.draw_bbox(np.copy(image), np.copy(bboxes))
         image, bboxes = data_aug.random_horizontal_flip(np.copy(image), np.copy(bboxes))
         image, bboxes = data_aug.random_crop(np.copy(image), np.copy(bboxes))
         image, bboxes = data_aug.random_translate(np.copy(image), np.copy(bboxes))
@@ -211,12 +213,14 @@ class Data(object):
                     # 首先需要将该Anchor对应的标签清零，因为某个Anchor可能与多个bbox的IOU大于0.3
                     # 如果不清零，那么该Anchor可能会被标记为多类
                     # DEBUG
+                    '''
                     if yind >= label[i].shape[0] or xind >= label[i].shape[1]:
                         print "exist"
                         print anno
                         print yind
                         print xind
                         print label[i].shape
+                    '''
                     label[i][yind, xind, iou_mask, :] = 0
                     label[i][yind, xind, iou_mask, 0:4] = bbox_xywh
                     label[i][yind, xind, iou_mask, 4:5] = 1.0
@@ -239,9 +243,11 @@ class Data(object):
                 # 当输入图片尺寸为416时，与多个bbox有最大IOU的Anchor总共有248个
                 # 如果不清零，那么该Anchor可能会被标记为多类
                 # DEBUG
-                if yind > label[i].shape[0] or xind > label[i].shape[1]:
+                '''
+                if yind >= label[i].shape[0] or xind >= label[i].shape[1]:
                     print "no exist"
                     print anno
+                '''
                 label[best_detect][yind, xind, best_anchor, :] = 0
                 label[best_detect][yind, xind, best_anchor, 0:4] = bbox_xywh
                 label[best_detect][yind, xind, best_anchor, 4:5] = 1.0

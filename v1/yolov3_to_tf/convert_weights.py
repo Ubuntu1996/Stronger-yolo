@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# using py3
+
 import tensorflow as tf
 
 import yolo_v3

@@ -12,7 +12,7 @@ LEARN_RATE_INIT = 1e-4
 LEARN_RATE_END = 1e-6
 WARMUP_PERIODS = 2
 PERIODS_FOR_STEP0 = 20
-MAX_PERIODS = 30
+MAX_PERIODS = 1000
 ANCHORS = [[(1.25, 1.625), (2.0, 3.75), (4.125, 2.875)],            # Anchors for small obj
            [(1.875, 3.8125), (3.875, 2.8125), (3.6875, 7.4375)],    # Anchors for medium obj
            [(3.625, 2.8125), (4.875, 6.1875), (11.65625, 10.1875)]] # Anchors for big obj
@@ -24,18 +24,18 @@ MAX_BBOX_PER_SCALE = 150
 # test
 MULTI_TEST = False
 FLIP_TEST = False
-SCORE_THRESHOLD = 0.5    # The threshold of the probability of the classes
+SCORE_THRESHOLD = 0.2    # The threshold of the probability of the classes
 IOU_THRESHOLD = 0.45     # The threshold of the IOU when implement NMS
 
-# compute environment
-GPU = "0, 1"
+# compute environsment
+GPU = "2"
 
 # name and path
 DATASET_PATH = '/data/pan/projects/digits/iron_data/'
 ANNOT_DIR_PATH = '/data/pan/projects/digits/iron_data'
 WEIGHTS_DIR = 'weights'
-WEIGHTS_FILE = 'voc_fine_tune_initial.ckpt'
-# WEIGHTS_FILE = 'yolo.ckpt-29-6.3029'
+# WEIGHTS_FILE = 'voc_fine_tune_initial.ckpt'
+WEIGHTS_FILE = 'yolo.ckpt-299-3.6694'
 LOG_DIR = 'log'
 
 '''
@@ -45,4 +45,3 @@ CLASSES = ['aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus',
            'train', 'tvmonitor']
 '''
 CLASSES = ['stamp']
-

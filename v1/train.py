@@ -56,10 +56,10 @@ class YoloTrain(object):
 
         with tf.name_scope('optimize'):
             with tf.name_scope('learn_rate'):
-                self.__global_step = tf.Variable(1.0, dtype=tf.float64, trainable=False, name='global_step')
-                warmup_steps = tf.constant(self.__warmup_periods * self.__steps_per_period, dtype=tf.float64,
+                self.__global_step = tf.Variable(1.0, dtype=tf.float32, trainable=False, name='global_step')
+                warmup_steps = tf.constant(self.__warmup_periods * self.__steps_per_period, dtype=tf.float32,
                                            name='warmup_steps')
-                train_steps = tf.constant(self.__max_periods * self.__steps_per_period, dtype=tf.float64,
+                train_steps = tf.constant(self.__max_periods * self.__steps_per_period, dtype=tf.float32,
                                           name='train_steps')
                 self.__learn_rate = tf.cond(
                     pred=self.__global_step < warmup_steps,
@@ -107,7 +107,8 @@ class YoloTrain(object):
             self.__summary_writer = tf.summary.FileWriter(self.__log_dir)
             self.__summary_writer.add_graph(tf.get_default_graph())
 
-        self.__sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
+        self.__sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True,
+                                                       gpu_options=tf.GPUOptions(allow_growth=True)))
 
     def train(self):
         self.__sess.run(tf.global_variables_initializer())
